@@ -8,8 +8,16 @@ int main(int argc, char **argv)
 {
     int sockfd, sendbuff, recvbuff;
     socklen_t optlen;
+    int des = 0;
+    cout << "Select 1 for tcp and 2 for udp :";
+    cin >> des;
+    if(des == 1)
+        sockfd = socket(AF_INET, SOCK_STREAM, 0);
+    else if(des == 2)
+        sockfd = socket(AF_INET, SOCK_DGRAM, 0);
+    else 
+        return 4;
 
-    sockfd = socket(AF_INET, SOCK_STREAM, 0);
     if(sockfd == -1)
         printf("Error");
 
@@ -31,7 +39,6 @@ int main(int argc, char **argv)
     sendbuff = 98304;
     recvbuff = 44444;
 
-    printf("sets the send buffer to %d\n", sendbuff);
 
     cout << "Enter new size of send buffer: ";
     cin >> sendbuff;
@@ -40,6 +47,7 @@ int main(int argc, char **argv)
 
     cout << endl;
 
+    printf("sets the send buffer to %d\n", sendbuff);
     printf("sets the recieve buffer to %d\n", recvbuff);
 
     res = setsockopt(sockfd, SOL_SOCKET, SO_SNDBUF, &sendbuff, sizeof(sendbuff));
